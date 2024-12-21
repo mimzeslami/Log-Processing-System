@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: logprocessor_db
+    environment:
+      POSTGRES_USER: loguser
+      POSTGRES_PASSWORD: logpassword
+      POSTGRES_DB: logprocessor
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: logprocessor_rabbitmq
+    ports:
+      - "5672:5672" # RabbitMQ protocol
+      - "15672:15672" # RabbitMQ Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+volumes:
+  db_data:
